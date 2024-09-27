@@ -140,13 +140,15 @@ export default function DetailsForm() {
           ))}
         </div>
       </div>
-      <Button
-        onClick={() => generateUrl()}
-        disabled={!detailsForm}
-        type='button'
-      >
-        Generate URL
-      </Button>
+      <div className='w-full grid place-items-end'>
+        <Button
+          onClick={() => generateUrl()}
+          disabled={!detailsForm}
+          type='button'
+        >
+          Generate URL
+        </Button>
+      </div>
 
       {widgetUrl && (
         <div className='flex flex-col gap-2'>

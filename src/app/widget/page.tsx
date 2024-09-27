@@ -1,13 +1,9 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  CharacterProfile,
-  DetailsFormType,
-  MythicPlusRecentRun
-} from '@/lib/types';
+import { CharacterProfile, DetailsFormType } from '@/lib/types';
 import React, { useEffect, useState } from 'react';
-import { classColor, getClassColor, getRaidColor } from '@/lib/class.utilities';
+import { getClassColor, getRaidColor } from '@/lib/class.utilities';
 
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -20,7 +16,7 @@ export default function Page() {
   const [data, setData] = useState<CharacterProfile | null>(null);
   const [decodedData, setDecodedData] = useState<DetailsFormType | null>(null);
   const [loading, setLoading] = useState(false);
-  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  // const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
   const fetchData = async (decodedData: DetailsFormType) => {
     try {
@@ -49,7 +45,7 @@ export default function Page() {
       const data = await response.json();
 
       setData(data);
-      setLastUpdated(new Date());
+      // setLastUpdated(new Date());
     } catch (err) {
       console.error(err);
     } finally {
@@ -188,10 +184,6 @@ export default function Page() {
       </CardContent>
     </Card>
   );
-}
-
-function formatTime(date: Date) {
-  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
 function getRaidDifficulty(summary: string): string {

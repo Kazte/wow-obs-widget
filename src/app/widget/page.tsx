@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CharacterProfile, DetailsFormType } from '@/lib/types';
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { getClassColor, getRaidColor } from '@/lib/class.utilities';
 
 import Image from 'next/image';
@@ -87,25 +87,6 @@ export default function Page() {
     };
   }, [encodedData]);
 
-  // useEffect(() => {
-  //   let intervalId: NodeJS.Timeout;
-
-  //   const initFetch = () => {
-  //     if (!encodedData) {
-  //       setLoading(false);
-  //       return;
-  //     }
-
-  //     try {
-  //       const data: DetailsFormType = JSON.parse(atob(encodedData));
-  //       setDecodedData(data);
-  //       const url = `https://raider.io/api/v1/characters/profile?region=${data.region}&realm=${data.realm}&name=${data.character}&fields=mythic_plus_recent_runs`;
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
-  // }, [encodedData]);
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -115,74 +96,77 @@ export default function Page() {
   }
 
   return (
-    <Card className='w-64 rounded-none'>
-      <CardHeader>
-        <CardTitle className='text-lg flex flex-row gap-2 items-center'>
-          <div>
-            {/* image adjust to fit */}
-            <Image
-              src={data.thumbnail_url}
-              alt={data.name}
-              width={64}
-              height={64}
-            />
-          </div>
-          <div className='flex flex-col'>
-            <div
-              className={cn(`text-lg font-semibold`)}
-              style={{ color: getClassColor(data.class) }}
-            >
-              {data.name}
+    <Suspense>
+      <Card className='w-64 rounded-none'>
+        <CardHeader>
+          <CardTitle className='text-lg flex flex-row gap-2 items-center'>
+            <div>
+              {/* image adjust to fit */}
+              <Image
+                src={data.thumbnail_url}
+                alt={data.name}
+                width={64}
+                height={64}
+              />
             </div>
-            <div className='text-sm text-muted-foreground'>
-              {decodedData?.realm}
-            </div>
-            {decodedData?.options.showGuild && data.guild && (
-              <div className='text-sm text-muted-foreground'>
-                {data.guild.name}
+            <div className='flex flex-col'>
+              <div
+                className={cn(`text-lg font-semibold`)}
+                style={{ color: getClassColor(data.class) }}
+              >
+                {data.name}
               </div>
-            )}
-          </div>
-        </CardTitle>
-      </CardHeader>
-      <CardContent className='space-y-2 flex flex-col'>
-        <div className='flex flex-col'>
-          <p className='text-sm font-semibold'>Current M+ Rating</p>
-          <p
-            className={cn('text-xl font-semibold')}
-            style={{
-              color: data?.mythic_plus_scores_by_season?.[0].segments.all.color
-            }}
-          >
-            {data?.mythic_plus_scores_by_season?.[0].scores.all.toFixed(1)}
-          </p>
-        </div>
-
-        {decodedData?.options.showProgress && data.raid_progression && (
-          <div>
-            <p className='text-sm font-semibold'>Raid Progress</p>
+              <div className='text-sm text-muted-foreground'>
+                {decodedData?.realm}
+              </div>
+              {decodedData?.options.showGuild && data.guild && (
+                <div className='text-sm text-muted-foreground'>
+                  {data.guild.name}
+                </div>
+              )}
+            </div>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className='space-y-2 flex flex-col'>
+          <div className='flex flex-col'>
+            <p className='text-sm font-semibold'>Current M+ Rating</p>
             <p
               className={cn('text-xl font-semibold')}
               style={{
-                color: getRaidColor(
-                  getRaidDifficulty(
-                    data.raid_progression['nerubar-palace'].summary
-                  )
-                )
+                color:
+                  data?.mythic_plus_scores_by_season?.[0].segments.all.color
               }}
             >
-              {data.raid_progression['nerubar-palace'].summary}
+              {data?.mythic_plus_scores_by_season?.[0].scores.all.toFixed(1)}
             </p>
           </div>
-        )}
 
-        {/* {lastUpdated && (
+          {decodedData?.options.showProgress && data.raid_progression && (
+            <div>
+              <p className='text-sm font-semibold'>Raid Progress</p>
+              <p
+                className={cn('text-xl font-semibold')}
+                style={{
+                  color: getRaidColor(
+                    getRaidDifficulty(
+                      data.raid_progression['nerubar-palace'].summary
+                    )
+                  )
+                }}
+              >
+                {data.raid_progression['nerubar-palace'].summary}
+              </p>
+            </div>
+          )}
+
+          {/* {lastUpdated && (
           <p className='text-xs text-muted-foreground mt-2'>
             Last updated: {formatTime(lastUpdated)}
           </p>
         )} */}
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </Suspense>
   );
 }
 

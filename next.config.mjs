@@ -2,6 +2,9 @@
 const nextConfig = {
   images: {
     domains: ['render.worldofwarcraft.com']
+  },
+  experimental: {
+    missingSuspenseWithCSRBailout: false
   }
 };
 

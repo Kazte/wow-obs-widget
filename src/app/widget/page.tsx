@@ -88,11 +88,15 @@ export default function Page() {
   }, [encodedData]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    <Suspense>
+      return <div>Loading...</div>;
+    </Suspense>;
   }
 
   if (!data) {
-    return <div>No data</div>;
+    <Suspense>
+      return <div>No data</div>;
+    </Suspense>;
   }
 
   return (
@@ -103,8 +107,8 @@ export default function Page() {
             <div>
               {/* image adjust to fit */}
               <Image
-                src={data.thumbnail_url}
-                alt={data.name}
+                src={data!.thumbnail_url}
+                alt={data!.name}
                 width={64}
                 height={64}
               />
@@ -112,16 +116,16 @@ export default function Page() {
             <div className='flex flex-col'>
               <div
                 className={cn(`text-lg font-semibold`)}
-                style={{ color: getClassColor(data.class) }}
+                style={{ color: getClassColor(data!.class) }}
               >
-                {data.name}
+                {data!.name}
               </div>
               <div className='text-sm text-muted-foreground'>
                 {decodedData?.realm}
               </div>
-              {decodedData?.options.showGuild && data.guild && (
+              {decodedData?.options.showGuild && data!.guild && (
                 <div className='text-sm text-muted-foreground'>
-                  {data.guild.name}
+                  {data!.guild.name}
                 </div>
               )}
             </div>
@@ -141,7 +145,7 @@ export default function Page() {
             </p>
           </div>
 
-          {decodedData?.options.showProgress && data.raid_progression && (
+          {decodedData?.options.showProgress && data!.raid_progression && (
             <div>
               <p className='text-sm font-semibold'>Raid Progress</p>
               <p
@@ -149,12 +153,12 @@ export default function Page() {
                 style={{
                   color: getRaidColor(
                     getRaidDifficulty(
-                      data.raid_progression['nerubar-palace'].summary
+                      data!.raid_progression['nerubar-palace'].summary
                     )
                   )
                 }}
               >
-                {data.raid_progression['nerubar-palace'].summary}
+                {data!.raid_progression['nerubar-palace'].summary}
               </p>
             </div>
           )}

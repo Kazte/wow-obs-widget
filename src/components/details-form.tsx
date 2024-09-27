@@ -25,7 +25,8 @@ const defaultDetailsForm: DetailsFormType = {
 };
 
 export default function DetailsForm() {
-  const [detailsForm, setDetailsForm] = useState<DetailsFormType | null>(null);
+  const [detailsForm, setDetailsForm] =
+    useState<DetailsFormType>(defaultDetailsForm);
   const [widgetUrl, setWidgetUrl] = useState<string | null>(null);
   const { toast } = useToast();
 
@@ -35,8 +36,6 @@ export default function DetailsForm() {
         localStorage.getItem('detailsForm') as string
       );
       setDetailsForm(savedDetailsForm);
-    } else {
-      setDetailsForm(defaultDetailsForm);
     }
   }, []);
 

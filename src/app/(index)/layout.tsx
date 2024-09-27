@@ -1,6 +1,7 @@
 import './../globals.css';
 
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import localFont from 'next/font/local';
@@ -29,14 +30,20 @@ export default function Layout({
   return (
     <html lang='en'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased dark min-h-screen max-w-screen flex flex-col justify-between items-center`}
-        style={{
-          backgroundImage: 'url(/background.webp)',
-          backgroundSize: 'cover'
-        }}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased dark min-h-screen max-w-screen flex flex-col justify-between items-center relative`}
       >
+        <Image
+          src='/background.webp'
+          alt='Background'
+          fill
+          className='-z-10 object-cover'
+          quality={100}
+          priority
+        />
+
         <Toaster />
-        <main>{children}</main>
+
+        <main className='size-full flex-grow flex flex-col'>{children}</main>
 
         <footer className='row-start-3 flex gap-6 flex-wrap items-center justify-center min-h-12 w-full bg-background/90 backdrop-blur-lg border-t-[1px] border-border'>
           <p>

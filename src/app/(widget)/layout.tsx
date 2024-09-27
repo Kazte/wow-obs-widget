@@ -1,16 +1,16 @@
-import './globals.css';
+import './../globals.css';
 
 import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import localFont from 'next/font/local';
 
 const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
+  src: './../fonts/GeistVF.woff',
   variable: '--font-geist-sans',
   weight: '100 900'
 });
 const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
+  src: './../fonts/GeistMonoVF.woff',
   variable: '--font-geist-mono',
   weight: '100 900'
 });
@@ -20,8 +20,7 @@ export const metadata: Metadata = {
   description:
     'Generate a widget to display your World of Warcraft character progress'
 };
-
-export default function RootLayout({
+export default function Layout({
   children
 }: Readonly<{
   children: React.ReactNode;
@@ -31,7 +30,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased dark min-h-screen max-w-screen`}
       >
-        <Toaster />
         <main>{children}</main>
       </body>
     </html>

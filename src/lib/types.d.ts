@@ -3,6 +3,7 @@ export type Region = 'us' | 'eu' | 'kr' | 'tw' | 'cn';
 export type DetailsOptions = {
   showGuild: boolean;
   showProgress: boolean;
+  saveLocalStorage: boolean;
 };
 
 export type DetailsFormType = {

@@ -38,7 +38,7 @@ export default function Layout({
         <Toaster />
         <main>{children}</main>
 
-        <footer className='row-start-3 flex gap-6 flex-wrap items-center justify-center min-h-12 w-full bg-background/50 backdrop-blur-lg border-t-[1px] border-border'>
+        <footer className='row-start-3 flex gap-6 flex-wrap items-center justify-center min-h-12 w-full bg-background/90 backdrop-blur-lg border-t-[1px] border-border'>
           <p>
             Created by
             <Button asChild variant='link' className='px-0 font-bold text-md'>
